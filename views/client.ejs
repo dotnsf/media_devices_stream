@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta charset="utf8"/>
+<meta http-equiv="pragma" content="no-cache"/>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+-->
+
+<link rel="shortcut icon" href="imgs/icon.png" type="image/png"/>
+<link rel="icon" href="imgs/icon.png" type="image/png"/>
+<link rel="apple-touch-icon" href="imgs/icon.png"/>
+
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="apple-mobile-web-app-title" content="Media Recorder"/>
+
+<title>Media Recorder</title>
+<script>
+var media_data = [];
+$(function(){
+  navigator.mediaDevices.getUserMedia({ video: true }).then( function( media_stream ){
+    var recorder = new MediaRecorder( media_stream );
+    recorder.start();
+    recorder.onstart = function( evt ){
+      setTimeout( function(){ recorder.stop(); }, 1000 );
+    };
+    recorder.ondataavailable = function( evt ){
+      media_data.push( evt.data );
+      console.log( media_data );
+    };
+    recorder.onstop = function( evt ){
+      recorder.start();
+    };
+  }).catch( function( err ){
+    console.log( err );
+  });
+});
+</script>
+<style>
+</style>
+</head>
+<body>
+</body>
+</html>
